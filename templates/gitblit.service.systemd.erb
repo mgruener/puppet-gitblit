@@ -1,0 +1,15 @@
+[Unit]
+Description=Gitblit managing, viewing, and serving Git repositories.
+After=network.target
+
+[Service]
+User=<%= scope.lookupvar('gitblit::user') %>
+Group=<%= scope.lookupvar('gitblit::group') %>
+Environment="ARGS=-server -Xmx1024M -Djava.awt.headless=true -jar"
+EnvironmentFile=-/etc/sysconfig/gitblit
+ExecStart=/usr/bin/java $ARGS gitblit.jar --httpsPort $GITBLIT_HTTPS_PORT --httpPort $GITBLIT_HTTP_PORT --baseFolder $GITBLIT_BASE_FOLDER --dailyLogFile
+ExecStop=/usr/bin/java $ARGS gitblit.jar --baseFolder $GITBLIT_BASE_FOLDER --stop
+
+[Install]
+WantedBy=multi-user.target
+
