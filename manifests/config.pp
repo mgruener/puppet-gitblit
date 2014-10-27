@@ -1,4 +1,4 @@
-class gitblit::config (
+define gitblit::config (
   $ensure     = present,
   $configfile = "${gitblit::datadir}/gitblit.properties",
   $value      = undef,
