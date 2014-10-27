@@ -45,7 +45,7 @@ class gitblit (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template("${module_name}/gitblit.defaults.erb")
+    content => template("${module_name}/service/gitblit.defaults.erb")
   }
 
   service { $service_name:
