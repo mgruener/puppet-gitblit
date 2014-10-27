@@ -6,14 +6,14 @@ class gitblit::params {
       }
       $service_provider = 'systemd'
       $service_name     = 'gitblit.service'
-      $service_template = 'gitblit.service.systemd.erb'
+      $service_template = 'service/gitblit.service.systemd.erb'
       $service_path     = "/usr/lib/systemd/system/${service_name}"
       $service_config   = '/etc/sysconfig/gitblit'
     }
     'Ubuntu', 'Debian': {
       $service_provider = undef
       $service_name     = 'gitblit'
-      $service_template = 'gitblit.service.lsbinit.erb'
+      $service_template = 'service/gitblit.service.lsbinit.erb'
       $service_path     = "/etc/init.d/${service_name}"
       $service_config   = '/etc/default/gitblit'
     }
@@ -22,14 +22,14 @@ class gitblit::params {
         6: {
           $service_provider = undef
           $service_name     = 'gitblit'
-          $service_template = 'gitblit.service.chkconfig.erb'
+          $service_template = 'service/gitblit.service.chkconfig.erb'
           $service_path     = "/etc/init.d/${service_name}"
           $service_config   = '/etc/sysconfig/gitblit'
         }
         7: {
           $service_provider = 'systemd'
           $service_name     = 'gitblit.service'
-          $service_template = 'gitblit.service.systemd.erb'
+          $service_template = 'service/gitblit.service.systemd.erb'
           $service_path     = "/usr/lib/systemd/system/${service_name}"
           $service_config   = '/etc/sysconfig/gitblit'
         }
