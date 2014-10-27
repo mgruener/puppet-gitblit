@@ -24,15 +24,6 @@ class gitblit (
     group  => $group,
   }
 
-  file { "${installdir}/logs":
-    ensure  => directory,
-    owner   => $user,
-    group   => $group,
-    mode    => '0640',
-    recurse => true,
-    require => File[$installdir],
-  }
-
   file { $service_path:
     ensure  => present,
     owner   => 'root',
