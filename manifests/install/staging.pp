@@ -12,8 +12,16 @@ class gitblit::install::staging (
   $download_url = "http://dl.bintray.com/gitblit/releases/${filename}"
 
   staging::deploy { $filename:
-    source => $download_url,
-    target => $installdestdir_real,
+    source  => $download_url,
+    target  => $installdestdir_real,
+    require => File[$installdestdir_real],
+  }
+
+  file { $installdestdir_real:
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
   }
 
   file { $gitblit::installdir:
