@@ -52,7 +52,7 @@ class gitblit (
     ensure   => $service_ensure,
     enable   => $service_enable,
     provider => $service_provider,
-    require  => [File[$service_name],File[$service_config]],
+    require  => [File[$service_path],File[$service_config]],
   }
 
   if $manageuser {
