@@ -2,7 +2,7 @@ define gitblit::user (
   $password,
   $ensure                   = present,
   $username                 = $title,
-  $passwordtype             = 'plain',
+  $passwordtype             = 'CMD5',
   $accounttype              = 'LOCAL',
   $emailmeonmyticketchanges = true,
   $displayname              = $title,
