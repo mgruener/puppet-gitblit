@@ -30,11 +30,19 @@ class gitblit::install::staging (
     target => $installdestdir_real,
   }
 
-  exec { "cp -r ${installdestdir_real}/data/* ${gitblit::datadir}/":
+  exec { 'initial-datadir-provisioning':
+    command     => "cp -r ${installdestdir_real}/data/* ${gitblit::datadir}/",
     path        => '/bin:/usr/bin',
     creates     => "${gitblit::datadir}/gitblit.properties",
     refreshonly => true,
     require     => Staging::Deploy[$filename],
     subscribe   => File[$gitblit::datadir],
+  }
+
+  exec { 'initial-datadir-provisioning-accessrights':
+    command     => "chown -R ${gitblit::user}:${gitblit::group} ${gitblit::datadir}",
+    path        => '/bin:/usr/bin',
+    refreshonly => true,
+    subscribe   => Exec['initial-datadir-provisioning'],
   }
 }
