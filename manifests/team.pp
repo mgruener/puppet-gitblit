@@ -3,6 +3,7 @@ define gitblit::team (
   $teamname = $title,
   $accounttype = 'LOCAL',
   $mailinglist = undef,
+  $users = undef,
   $roles = undef,
   $repositories = undef,
 ) {
