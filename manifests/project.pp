@@ -1,7 +1,7 @@
 define gitblit::project (
-  $ensure       = present,
-  $description  = $name,
-  $doc          = undef,
+  $ensure      = present,
+  $description = $name,
+  $doc         = undef,
 ) {
 
   if $title == 'main' {

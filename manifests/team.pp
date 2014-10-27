@@ -1,10 +1,10 @@
 define gitblit::team (
-  $ensure   = present,
-  $teamname = $title,
-  $accounttype = 'LOCAL',
-  $mailinglist = undef,
-  $users = undef,
-  $roles = undef,
+  $ensure       = present,
+  $teamname     = $title,
+  $accounttype  = 'LOCAL',
+  $mailinglist  = undef,
+  $users        = undef,
+  $roles        = undef,
   $repositories = undef,
 ) {
   concat::fragment { "team-${title}":
