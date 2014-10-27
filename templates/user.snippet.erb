@@ -1,0 +1,44 @@
+[user "<%= @username %>"]
+	password = <%= @password_real %>
+	cookie = <%= @cookie %>
+	accountType = <%= @accounttype %>
+	emailMeOnMyTicketChanges = <%= @emailmeonmyticketchanges.to_s %>
+<% if @displayname -%>
+	displayName = <%= @displayname %>
+<% end -%>
+<% if @organizationalunit -%>
+	organizationalUnit = <%= @organizationalunit %>
+<% end -%>
+<% if @organization -%>
+	organization = <%= @organization %>
+<% end -%>
+<% if @locality -%>
+	locality = <%= @locality %>
+<% end -%>
+<% if @stateprovince -%>
+	stateProvince = <%= @stateprovince %>
+<% end -%>
+<% if @countrycode -%>
+	countryCode = <%= @countrycode %>
+<% end -%>
+<% if @disabled -%>
+	disabled = <%= @disabled.to_s %>
+<% end -%>
+<% if @locale -%>
+	locale = <%= @locale %>
+<% end -%>
+<% if @preferredtransport -%>
+	transport = <%= @preferredtransport %>
+<% end -%>
+<% if @roles -%>
+  <% Array(@roles).each do |role| -%>
+	role = "<%= role %>"
+  <% end -%>
+<% else -%>
+	role = "#none"
+<% end -%>
+<% if @repositories -%>
+  <% Array(@repositories).each do |repository| -%>
+	repository = "<%= repository %>"
+  <% end -%>
+<% end -%>

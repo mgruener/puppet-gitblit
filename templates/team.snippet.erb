@@ -1,0 +1,22 @@
+[team "<%= @teamname %>"]
+	accountType = <%= @accounttype %>
+<% if @mailinglist -%>
+	mailingList = <%= @mailinglist %>
+<% end -%>
+<% if @roles -%>
+  <% Array(@roles).each do |role| -%>
+	role = "<%= role %>"
+  <% end -%>
+<% else -%>
+	role = "#none"
+<% end -%>
+<% if @users -%>
+  <% Array(@users).each do |user| -%>
+	user = "<%= user %>"
+  <% end -%>
+<% end -%>
+<% if @repositories -%>
+  <% Array(@repositories).each do |repository| -%>
+	repository = "<%= repository %>"
+  <% end -%>
+<% end -%>
