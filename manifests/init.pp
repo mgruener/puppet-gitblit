@@ -30,6 +30,7 @@ class gitblit (
     group   => $group,
     mode    => '0640',
     recurse => true,
+    require => File[$installdir],
   }
 
   file { $service_path:
