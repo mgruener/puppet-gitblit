@@ -7,6 +7,7 @@ User=<%= scope.lookupvar('gitblit::user') %>
 Group=<%= scope.lookupvar('gitblit::group') %>
 Environment="ARGS=-server -Xmx1024M -Djava.awt.headless=true -jar"
 EnvironmentFile=-/etc/sysconfig/gitblit
+WorkingDirectory=<%= scope.lookupvar('gitblit::installdir') %>
 ExecStart=/usr/bin/java $ARGS gitblit.jar --httpsPort $GITBLIT_HTTPS_PORT --httpPort $GITBLIT_HTTP_PORT --baseFolder $GITBLIT_BASE_FOLDER --dailyLogFile
 ExecStop=/usr/bin/java $ARGS gitblit.jar --baseFolder $GITBLIT_BASE_FOLDER --stop
 
