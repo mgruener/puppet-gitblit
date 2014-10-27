@@ -22,6 +22,7 @@ class gitblit (
     ensure => directory,
     owner  => $user,
     group  => $group,
+    mode   => '0755',
   }
 
   file { $service_path:
