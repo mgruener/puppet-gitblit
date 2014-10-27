@@ -14,6 +14,7 @@ class gitblit::install::staging (
   staging::deploy { $filename:
     source  => $download_url,
     target  => $installdestdir_real,
+    creates => "${installdestdir_real}/gitblit.jar",
     require => File[$installdestdir_real],
   }
 
