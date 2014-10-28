@@ -4,19 +4,19 @@
 	mailingList = <%= @mailinglist %>
 <% end -%>
 <% if @roles -%>
-  <% Array(@roles).each do |role| -%>
+<% Array(@roles).each do |role| -%>
 	role = "<%= role %>"
-  <% end -%>
+<% end -%>
 <% else -%>
 	role = "#none"
 <% end -%>
 <% if @users -%>
-  <% Array(@users).each do |user| -%>
+<% Array(@users).each do |user| -%>
 	user = "<%= user %>"
-  <% end -%>
+<% end -%>
 <% end -%>
 <% if @repositories -%>
-  <% Array(@repositories).each do |repository| -%>
+<% Array(@repositories).each do |repository| -%>
 	repository = "<%= repository %>"
-  <% end -%>
+<% end -%>
 <% end -%>

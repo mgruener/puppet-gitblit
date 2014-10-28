@@ -31,14 +31,14 @@
 	transport = <%= @preferredtransport %>
 <% end -%>
 <% if @roles -%>
-  <% Array(@roles).each do |role| -%>
+<% Array(@roles).each do |role| -%>
 	role = "<%= role %>"
-  <% end -%>
+<% end -%>
 <% else -%>
 	role = "#none"
 <% end -%>
 <% if @repositories -%>
-  <% Array(@repositories).each do |repository| -%>
+<% Array(@repositories).each do |repository| -%>
 	repository = "<%= repository %>"
-  <% end -%>
+<% end -%>
 <% end -%>
