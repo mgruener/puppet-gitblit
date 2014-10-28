@@ -53,5 +53,5 @@ define gitblit::user (
     target  => "${gitblit::datadir}/ssh/${title}.keys"
   }
 
-  create_resource('ssh_authorized_key',$sshkeys,$sshkeydefaults)
+  create_resources('ssh_authorized_key',$sshkeys,$sshkeydefaults)
 }
