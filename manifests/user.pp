@@ -17,6 +17,7 @@ define gitblit::user (
   $preferredtransport       = undef,
   $roles                    = undef,
   $repositories             = undef,
+  $sshkeys                  = {},
 ) {
   case downcase($passwordtype) {
     'plain': { $password_real = $password }
@@ -42,4 +43,15 @@ define gitblit::user (
     target  => 'users.conf',
     content => template("${module_name}/user.snippet.erb"),
   }
+
+  # most ssh keys will be used for full access, so make
+  # this the default access level for new keys
+  $sshkeydefaults = {
+    ensure  => $ensure,
+    user    => $gitblit::user,
+    options => 'RW',
+    target  => "${gitblit::datadir}/ssh/${title}.keys"
+  }
+
+  create_resource('ssh_authorized_key',$sshkeys,$sshkeydefaults)
 }
