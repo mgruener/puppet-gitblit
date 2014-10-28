@@ -6,6 +6,7 @@ define gitblit::user (
   $accounttype              = 'LOCAL',
   $emailmeonmyticketchanges = true,
   $displayname              = $title,
+  $emailaddress             = undef,
   $organizationalunit       = undef,
   $organization             = undef,
   $locality                 = undef,
