@@ -44,5 +44,6 @@ class gitblit::install::staging (
     path        => '/bin:/usr/bin',
     refreshonly => true,
     subscribe   => Exec['initial-datadir-provisioning'],
+    notify      => Service[$gitblit::service_name],
   }
 }

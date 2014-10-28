@@ -50,7 +50,8 @@ define gitblit::user (
     ensure  => $ensure,
     user    => $gitblit::user,
     options => 'RW',
-    target  => "${gitblit::datadir}/ssh/${title}.keys"
+    target  => "${gitblit::datadir}/ssh/${title}.keys",
+    require => File[$gitblit::datadir],
   }
 
   create_resources('ssh_authorized_key',$sshkeys,$sshkeydefaults)

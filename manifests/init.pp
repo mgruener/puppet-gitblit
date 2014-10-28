@@ -63,6 +63,7 @@ class gitblit (
     mode    => '0640',
     warn    => true,
     replace => true,
+    require => $datadir,
   }
 
   concat { 'projects.conf':
@@ -73,6 +74,7 @@ class gitblit (
     mode    => '0644',
     warn    => true,
     replace => true,
+    require => $datadir,
   }
 
   gitblit::project { 'main':
