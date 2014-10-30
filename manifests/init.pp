@@ -103,6 +103,7 @@ class gitblit (
       gid        => $group,
       system     => true,
       managehome => false,
+      home       => $datadir,
       before     => File[$datadir]
     }
   }
