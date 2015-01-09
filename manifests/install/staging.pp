@@ -45,5 +45,6 @@ class gitblit::install::staging (
     refreshonly => true,
     subscribe   => Exec['initial-datadir-provisioning'],
     notify      => Service[$gitblit::service_name],
+    before      => [Concat['users.conf'],Concat['projects.conf']],
   }
 }
