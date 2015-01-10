@@ -6,7 +6,7 @@ class gitblit (
   $user                    = 'gitblit',
   $group                   = 'gitblit',
   $manageuser              = true,
-  $manage_gitblit_user     = true,
+  $manage_gitblit_users    = true,
   $manage_gitblit_projects = true,
   $service_name            = $gitblit::params::service_name,
   $service_provider        = $gitblit::params::service_provider,
