@@ -69,18 +69,18 @@ class gitblit (
     require  => [File[$service_path],File[$service_config]],
   }
 
-  if $manage_gitblit_users {
-    concat { 'users.conf':
-      ensure  => present,
-      path    => "${datadir}/users.conf",
-      owner   => $user,
-      group   => $group,
-      mode    => '0640',
-      warn    => true,
-      replace => true,
-      require => File[$datadir],
-    }
+  concat { 'users.conf':
+    ensure  => present,
+    path    => "${datadir}/users.conf",
+    owner   => $user,
+    group   => $group,
+    mode    => '0640',
+    warn    => true,
+    replace => $manage_gitblit_users,
+    require => File[$datadir],
+  }
 
+  if $manage_gitblit_users {
     gitblit::user { 'admin':
       ensure       => present,
       passwordtype => $adminpasswordtype,
@@ -93,18 +93,18 @@ class gitblit (
     create_resources('gitblit::team',$teams_real)
   }
 
-  if $manage_gitblit_projects {
-    concat { 'projects.conf':
-      ensure  => present,
-      path    => "${datadir}/projects.conf",
-      owner   => $user,
-      group   => $group,
-      mode    => '0644',
-      warn    => true,
-      replace => true,
-      require => File[$datadir],
-    }
+  concat { 'projects.conf':
+    ensure  => present,
+    path    => "${datadir}/projects.conf",
+    owner   => $user,
+    group   => $group,
+    mode    => '0644',
+    warn    => true,
+    replace => $manage_gitblit_projects,
+    require => File[$datadir],
+  }
 
+  if $manage_gitblit_projects {
     gitblit::project { 'main':
       ensure      => present,
       name        => 'Main Repositories',
