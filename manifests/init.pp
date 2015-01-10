@@ -27,6 +27,18 @@ class gitblit (
   # only one installation method at the moment
   include gitblit::install::staging
 
+  if $hiera_merge {
+    $config_real   = hiera_hash('gitblit::config')
+    $users_real    = hiera_hash('gitblit::users')
+    $teams_real    = hiera_hash('gitblit::teams')
+    $projects_real = hiera_hash('gitblit::projects')
+  } else {
+    $config_real   = $config
+    $users_real    = $users
+    $teams_real    = $teams
+    $projects_real = $projects
+  }
+
   file { $datadir:
     ensure => directory,
     owner  => $user,
@@ -117,18 +129,6 @@ class gitblit (
       home       => $datadir,
       before     => File[$datadir]
     }
-  }
-
-  if $hiera_merge {
-    $config_real   = hiera_hash('gitblit::config')
-    $users_real    = hiera_hash('gitblit::users')
-    $teams_real    = hiera_hash('gitblit::teams')
-    $projects_real = hiera_hash('gitblit::projects')
-  } else {
-    $config_real   = $config
-    $users_real    = $users
-    $teams_real    = $teams
-    $projects_real = $projects
   }
 
   create_resources('gitblit::config',$config_real)
