@@ -14,29 +14,97 @@ source /etc/sysconfig/gitblit
 source ${GITBLIT_PATH}/java-proxy-config.sh
 JAVA="java -server -Xmx1024M ${JAVA_PROXY_CONFIG} -Djava.awt.headless=true -jar"
 
+LOCK="/var/lock/subsys/gitblit"
 RETVAL=0
+
+pid_of_gitblit() {
+  pgrep -u ${GITBLIT_USER} -x -f '^java .*gitblit\.jar .*$'
+}
+status() {
+  pid=$(pid_of_gitblit)
+  if [ -n "$pid" ]; then
+    echo "gitblit (pid $pid) is running..."
+    RET=0
+  else
+    if [ -f "$LOCK" ]; then
+      echo $"gitblit dead but subsys locked"
+      RET=2
+    else
+      echo "gitblit is stopped"
+      RET=3
+    fi
+  fi
+  return $RET
+}
 
 case "$1" in
   start)
-    if [ -f $GITBLIT_PATH/gitblit.jar ];
-      then
-      echo $"Starting gitblit server"
+    echo -n $"Starting gitblit server: "
+    if [ -f $GITBLIT_PATH/gitblit.jar ]; then
       cd $GITBLIT_PATH
-      sudo -u $GITBLIT_USER $JAVA $GITBLIT_PATH/gitblit.jar --httpsPort $GITBLIT_HTTPS_PORT --httpPort $GITBLIT_HTTP_PORT --baseFolder $GITBLIT_BASE_FOLDER --dailyLogFile &
-      echo "."
-      exit $RETVAL
+      su $GITBLIT_USER -c "$JAVA $GITBLIT_PATH/gitblit.jar --httpsPort $GITBLIT_HTTPS_PORT --httpPort $GITBLIT_HTTP_PORT --baseFolder $GITBLIT_BASE_FOLDER --dailyLogFile" &
+      status > /dev/null
+      RETVAL=$?
+
+      cnt=10
+      while [ $RETVAL != 0 -a $cnt -gt 0 ]
+      do
+        status > /dev/null
+        RETVAL=$?
+        sleep 1
+        ((cnt--))
+      done
+
+      [ $RETVAL = 0 ] && success $"$STRING" || failure $"$STRING"
+      echo
+      [ $RETVAL = 0 ] && touch "$LOCK"
+    else
+      failure $"$STRING"
+      echo
+      echo $"$GITBLIT_PATH/gitblit.jar not found" 
+      RETVAL=1
     fi
   ;;
 
   stop)
-    if [ -f $GITBLIT_PATH/gitblit.jar ];
-      then
-      echo $"Stopping gitblit server"
-      cd $GITBLIT_PATH
-      sudo -u $GITBLIT_USER $JAVA $GITBLIT_PATH/gitblit.jar --baseFolder $GITBLIT_BASE_FOLDER --stop > /dev/null &
-      echo "."
-      exit $RETVAL
+    echo -n $"Stopping gitblit server: "
+    pid_of_gitblit > /dev/null
+    RETVAL=$?
+    if [ $RETVAL = 0 ]; then
+      if [ -f $GITBLIT_PATH/gitblit.jar ]; then
+        cd $GITBLIT_PATH
+        su $GITBLIT_USER -c "$JAVA $GITBLIT_PATH/gitblit.jar --baseFolder $GITBLIT_BASE_FOLDER --stop" > /dev/null
+
+        cnt=10
+        while [ $RETVAL = 0 -a $cnt -gt 0 ]
+        do
+          status > /dev/null
+          RETVAL=$?
+          sleep 1
+          ((cnt--))
+        done
+
+        [ $RETVAL = 2 ] && rm -f "$LOCK"
+        status > /dev/null
+        RETVAL=$?
+        [ $RETVAL = 3 ] && success $"$STRING" || failure $"$STRING"
+        echo
+      else
+        failure $"$STRING"
+        echo
+        echo $"$GITBLIT_PATH/gitblit.jar not found"
+        RETVAL=1
+      fi
+    else
+      success $"$STRING"
+      echo
+      rm -f "$LOCK"
     fi
+  ;;
+
+  status)
+    status
+    RETVAL=$?
   ;;
 
   force-reload|restart)
@@ -46,7 +114,7 @@ case "$1" in
   ;;
 
   *)
-    echo $"Usage: /etc/init.d/gitblit {start|stop|restart|force-reload}"
+    echo $"Usage: /etc/init.d/gitblit {start|stop|status|restart|force-reload}"
     exit 1
   ;;
 esac
