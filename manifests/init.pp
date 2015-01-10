@@ -76,6 +76,7 @@ class gitblit (
     group   => $group,
     mode    => '0640',
     warn    => true,
+    force   => true,
     replace => $manage_gitblit_users,
     require => File[$datadir],
   }
@@ -100,6 +101,7 @@ class gitblit (
     group   => $group,
     mode    => '0644',
     warn    => true,
+    force   => true,
     replace => $manage_gitblit_projects,
     require => File[$datadir],
   }
