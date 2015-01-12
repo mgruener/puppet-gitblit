@@ -33,8 +33,7 @@ class gitblit::install::staging (
   exec { 'initial-datadir-provisioning':
     command     => "cp -r ${installdestdir_real}/data/* ${gitblit::datadir}/",
     path        => '/bin:/usr/bin',
-    creates     => "${gitblit::datadir}/gitblit.properties",
-    refreshonly => true,
+    creates     => "${gitblit::datadir}/certs",
     require     => Staging::Deploy[$filename],
     subscribe   => File[$gitblit::datadir],
   }
