@@ -17,9 +17,11 @@ class gitblit::jetleakfix (
   staging::file { $file:
     source => "${url}",
     target => "${::gitblit::installdir}/ext/${file}",
+    notify => Service[$::gitblit::service_name],
   }
 
   file { "${::gitblit::installdir}/ext/jetty-all-9.2.3.v20140905.jar":
-    ensure => absent
+    ensure => absent,
+    notify => Service[$::gitblit::service_name],
   }
 }
