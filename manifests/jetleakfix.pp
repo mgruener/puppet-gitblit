@@ -11,7 +11,7 @@ class gitblit::jetleakfix (
   if $absoluteurl {
     $url = $absoluteurl
   } else {
-    $url = "${baseurl}/${file}"
+    $url = "${baseurl}/${version}/${file}"
   }
 
   staging::file { $file:
