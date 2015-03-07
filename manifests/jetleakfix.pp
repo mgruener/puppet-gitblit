@@ -13,7 +13,7 @@ class gitblit::jetleakfix (
   }
 
   staging::file { $file:
-    source => ${url},
+    source => $url,
     target => "${::gitblit::installdir}/ext/${file}",
     notify => Service[$::gitblit::service_name],
   }
