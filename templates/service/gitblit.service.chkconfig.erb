@@ -62,7 +62,7 @@ case "$1" in
       failure $"$STRING"
       echo
       echo $"$GITBLIT_PATH/gitblit.jar not found" 
-      RETVAL=1
+      RETVAL=5
     fi
   ;;
 
@@ -87,16 +87,23 @@ case "$1" in
         [ $RETVAL = 2 ] && rm -f "$LOCK"
         status > /dev/null
         RETVAL=$?
-        [ $RETVAL = 3 ] && success $"$STRING" || failure $"$STRING"
+        if [ $RETVAL = 3 ]; then
+          success $"$STRING"
+          RETVAL=0
+        else
+          failure $"$STRING"
+          RETVAL=1
+        fi
         echo
       else
         failure $"$STRING"
         echo
         echo $"$GITBLIT_PATH/gitblit.jar not found"
-        RETVAL=1
+        RETVAL=5
       fi
     else
-      success $"$STRING"
+      failure $"$STRING"
+      RETVAL=7
       echo
       rm -f "$LOCK"
     fi
@@ -115,7 +122,7 @@ case "$1" in
 
   *)
     echo $"Usage: /etc/init.d/gitblit {start|stop|status|restart|force-reload}"
-    exit 1
+    exit 2
   ;;
 esac
 
