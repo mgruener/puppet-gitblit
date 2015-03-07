@@ -5,8 +5,6 @@ class gitblit::jetleakfix (
   $baseurl = 'http://repo1.maven.org/maven2/org/eclipse/jetty/aggregate/jetty-all',
   $absoluteurl = '',
 ) {
-  require gitblit
-
   $file = "jetty-all-${version}.jar"
   if $absoluteurl {
     $url = $absoluteurl
@@ -15,7 +13,7 @@ class gitblit::jetleakfix (
   }
 
   staging::file { $file:
-    source => "${url}",
+    source => ${url},
     target => "${::gitblit::installdir}/ext/${file}",
     notify => Service[$::gitblit::service_name],
   }
