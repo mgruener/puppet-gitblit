@@ -19,14 +19,14 @@ class gitblit::params {
     }
     'CentOS','RedHat': {
       case $::operatingsystemmajrelease {
-        6: {
+        '6': {
           $service_provider = undef
           $service_name     = 'gitblit'
           $service_template = 'service/gitblit.service.chkconfig.erb'
           $service_path     = "/etc/init.d/${service_name}"
           $service_config   = '/etc/sysconfig/gitblit'
         }
-        7: {
+        '7': {
           $service_provider = 'systemd'
           $service_name     = 'gitblit.service'
           $service_template = 'service/gitblit.service.systemd.erb'
