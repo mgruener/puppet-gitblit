@@ -11,7 +11,7 @@ class gitblit::install::staging (
   $filename          = basename($download_url_real)
 
   $basedir = "${installdestdir}/gitblit-${version}"
-  if versioncmp('1.6',$version) <= 0 {
+  if versioncmp('1.7',$version) > 0 {
     $targetdir = $basedir
 
     file { $targetdir:
